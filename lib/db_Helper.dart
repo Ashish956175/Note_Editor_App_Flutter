@@ -30,7 +30,7 @@ class DbHelper {
   //opendb
   Future<Database> openDb() async{
     Directory appDir = await pathProvider.getApplicationDocumentsDirectory();
-    String path = join(appDir.path, dbname);
+    String path =  join(dbname, appDir.path);
     return openDatabase(path, version: 1, onCreate: (db,_){
       db.execute("create table notes($columnId integer primary key autoincrement, $columnTitle text, $columnDesc text, $columnCurrentTime text)");
     });
