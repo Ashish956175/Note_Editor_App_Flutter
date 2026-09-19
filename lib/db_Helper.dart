@@ -26,6 +26,7 @@ class DbHelper {
 
 
   }
+
   //opendb
   Future<Database> openDb() async{
     Directory appDir = await pathProvider.getApplicationDocumentsDirectory();
@@ -38,14 +39,40 @@ class DbHelper {
 
   //crude
   //add
- Future<void> add({required String title, required String desc})async {
+ Future<bool> addNote({required String title, required String desc})async {
    Database db = await initDb();
+   return await db.insert(tablename, {
+     columnTitle: title,
+     columnDesc: desc,
+     columnCurrentTime: DateTime
+         .now()
+         .microsecondsSinceEpoch
+         .toString()}) > 0;
+ }
+   //update
 
+  Future<bool> updateNote({required int id, required String title, required String
+  desc})async{
+    Database db = await initDb();
+    return await db.update(tablename, {
+      columnTitle: title,
+      columnDesc: desc,
+    },where: '$columnId = ?' , whereArgs: [id])>0;
+  }
+
+  //fetching notes data
+
+  Future<List<Map<String, dynamic>>> notes() async{
+    Database db = await initDb();
+    return await db.query(tablename);
+  }
+
+  //delete
+ Future<bool> delete({required int id})async {
+   Database db = await initDb();
+   return await db.delete(tablename, where: '$columnId = ?', whereArgs: [id]) > 0;
  }
 
-  //update
-  //delete
-  //read
-
 }
+
 
