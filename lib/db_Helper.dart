@@ -31,9 +31,7 @@ class DbHelper {
     Directory appDir = await pathProvider.getApplicationDocumentsDirectory();
     String path = join(appDir.path, dbname);
     return openDatabase(path, version: 1, onCreate: (db,_){
-      db.execute("create table notes($columnId integer primary key "
-          "autoincreament, $columnTitle text, $columnDesc text, "
-          "$columnCurrentTime text)");
+      db.execute("create table notes($columnId integer primary key autoincrement, $columnTitle text, $columnDesc text, $columnCurrentTime text)");
     });
   }
 
