@@ -33,7 +33,8 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.amber.shade100,
-          title: Center(child: Text("Notes"))
+          title: Center(child: Text("Notes",style: TextStyle(fontSize: 31,
+            fontWeight: FontWeight(600),)))
 
 
         ),
@@ -151,17 +152,19 @@ class _MyHomePageState extends State<MyHomePage> {
           })
         ),
       floatingActionButton: FloatingActionButton(onPressed: (){
+        titleController.clear();
+        descController.clear();
         showModalBottomSheet(context: context, builder: (_){
-          titleController.clear();
-          descController.clear();
+
           return Container(
-            color: Colors.amber.shade50,
+            color: Colors.amber.shade200,
             width: double.infinity,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
-                  Text("Add Notes",style: TextStyle(fontSize: 21),),
+                  Text("Add Notes",style: TextStyle(fontSize: 31,fontWeight:
+                  FontWeight(1000)),),
                   SizedBox(height: 20,),
                   TextField(
                     controller: titleController,
@@ -220,7 +223,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       SizedBox(width: 20),
                       ElevatedButton(onPressed: (){
                         Navigator.pop(context);
-                      }, child: Icon(Icons.close,color: Colors.red.shade900,
+                      }, child: Icon(Icons.close,color: Colors.orange.shade900,
                         size: 31,))
                     ],
                   )
@@ -230,7 +233,9 @@ class _MyHomePageState extends State<MyHomePage> {
           );
         });
         },
-        child: Icon(Icons.add),
+        child: Icon(Icons.add,size: 51,),
+        backgroundColor: Colors.amber.shade900,
+        foregroundColor: Colors.amber.shade100,
       ),
 
     );
