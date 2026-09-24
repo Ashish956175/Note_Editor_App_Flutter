@@ -61,75 +61,42 @@ class _MyHomePageState extends State<MyHomePage> {
                       descController.text = notes[index][DbHelper.columnDesc];
                       showModalBottomSheet(context: context, builder: (_){
 
+                        return getBottomSheet(isUpdate: true, id: notes[index][DbHelper.columnId]);
+                      });
+                    }, child: Icon(Icons.edit,
+                      color: Colors.amber.shade900,),),
+                    SizedBox(width: 10,),
+                    ElevatedButton(onPressed: () async {
+                      showModalBottomSheet(context: context, builder:
+                          (_){
                         return Container(
-                          color: Colors.amber.shade50,
+                          color: Colors.amber.shade200,
                           width: double.infinity,
+                          height: 200,
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Column(
                               children: [
-                                Text("Update Notes",style: TextStyle(fontSize:
-                                21),),
-                                SizedBox(height: 20,),
-                                TextField(
-                                  controller: titleController,
-                                  decoration: InputDecoration(label: Text("title",style:
-                                  TextStyle(fontSize: 21))
-                                      ,hint: Text("Enter Title", style: TextStyle(fontSize:
-                                      17,),),
-                                      filled: true,
-                                      fillColor: Colors.white,
-                                      border:
-                                      OutlineInputBorder(borderRadius: BorderRadius.circular(21),),
-                                      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(21),
-                                          borderSide: BorderSide(color: Colors.amber.shade800)),
-                                      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(21),
-                                        borderSide: BorderSide(width: 2, color: Colors.amber
-                                            .shade800),)
-
-                                  ),
-
-                                ),
-                                SizedBox(height: 20,),
-                                TextField(
-                                  controller: descController,
-                                  maxLines: 4,
-                                  decoration: InputDecoration(label: Text("description",style:
-                                  TextStyle(fontSize: 21),)
-                                    ,hint: Text("Enter Description", style: TextStyle
-                                      (fontSize:
-                                    17),),
-                                    filled: true,
-                                    fillColor: Colors.white,
-                                    border:
-                                    OutlineInputBorder(borderRadius: BorderRadius.circular(21),),
-                                    enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(21),
-                                        borderSide: BorderSide(color: Colors.amber.shade800)),
-                                    focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(21),
-                                      borderSide: BorderSide(width: 2, color: Colors.amber
-                                          .shade800),),
-                                  ),
-
-
-                                ),
+                                Text("Are you sure you want to Delete Note",
+                                    style: TextStyle(fontSize: 31,fontWeight:
+                                    FontWeight(400))),
                                 SizedBox(height: 20,),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
-                                    ElevatedButton(onPressed: () async {
-                                      await dbHelper!.updateNote(id: notes[index][DbHelper.columnId],
-                                          title: titleController.text, desc: descController.text)? print("success"):print("failed");
-                                      titleController.clear();
-                                      descController.clear();
-                                      Navigator.pop(context);
-                                      getAllNotes();
-                                    }, child: Icon(Icons.save,
-                                      color: Colors.lightGreen.shade900,size: 31,)),
-                                    SizedBox(width: 20),
                                     ElevatedButton(onPressed: (){
                                       Navigator.pop(context);
-                                    }, child: Icon(Icons.close,color: Colors.red.shade900,
-                                      size: 31,))
+                                    }, child: Text("No",style: TextStyle
+                                      (fontSize: 21,fontWeight: FontWeight
+                                      (600),color: Colors.green.shade700)),),
+                                    SizedBox(width: 20,),
+                                    ElevatedButton(onPressed: () async{
+                                      bool isDeleted = await dbHelper!.deleteNote(id: notes[index][DbHelper.columnId]);
+                                      Navigator.pop(context);
+                                      getAllNotes();
+                                      }, child: Text("Yes",style: TextStyle
+                                      (fontSize: 21,fontWeight: FontWeight
+                                      (600),color: Colors.red.shade800)))
                                   ],
                                 )
                               ],
@@ -137,15 +104,10 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                         );
                       });
-                    }, child: Icon(Icons.edit,
+                    }, child: Icon(Icons.delete,
                       color: Colors.amber.shade900,),),
-                    SizedBox(width: 10,),
-                    ElevatedButton(onPressed: () async {
-                      await dbHelper!.deleteNote(id: notes[index][DbHelper.columnId]);
-                      getAllNotes();
-                    }, child: Icon(Icons.delete,color: Colors.red.shade900,))
+                  ],
 
-                  ]
                 ),
               ),
             );
@@ -156,81 +118,7 @@ class _MyHomePageState extends State<MyHomePage> {
         descController.clear();
         showModalBottomSheet(context: context, builder: (_){
 
-          return Container(
-            color: Colors.amber.shade200,
-            width: double.infinity,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  Text("Add Notes",style: TextStyle(fontSize: 31,fontWeight:
-                  FontWeight(1000)),),
-                  SizedBox(height: 20,),
-                  TextField(
-                    controller: titleController,
-                    decoration: InputDecoration(label: Text("title",style:
-                    TextStyle(fontSize: 21))
-                        ,hint: Text("Enter Title", style: TextStyle(fontSize:
-                      17,),),
-                      filled: true,
-                      fillColor: Colors.white,
-                      border:
-                      OutlineInputBorder(borderRadius: BorderRadius.circular(21),),
-                      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(21),
-                          borderSide: BorderSide(color: Colors.amber.shade800)),
-                      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(21),
-                          borderSide: BorderSide(width: 2, color: Colors.amber
-                              .shade800),)
-
-                    ),
-
-                  ),
-                  SizedBox(height: 20,),
-                  TextField(
-                    controller: descController,
-                    maxLines: 4,
-                    decoration: InputDecoration(label: Text("description",style:
-                    TextStyle(fontSize: 21),)
-                      ,hint: Text("Enter Description", style: TextStyle
-                        (fontSize:
-                      17),),
-                      filled: true,
-                      fillColor: Colors.white,
-                      border:
-                      OutlineInputBorder(borderRadius: BorderRadius.circular(21),),
-                        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(21),
-                            borderSide: BorderSide(color: Colors.amber.shade800)),
-                        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(21),
-                          borderSide: BorderSide(width: 2, color: Colors.amber
-                              .shade800),),
-                    ),
-
-
-                  ),
-                  SizedBox(height: 20,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      ElevatedButton(onPressed: () async {
-                        await dbHelper!.addNote(title: titleController.text, desc:
-                        descController.text)? print("success"):print("failed");
-                        titleController.clear();
-                        descController.clear();
-                        Navigator.pop(context);
-                        getAllNotes();
-                      }, child: Icon(Icons.save,
-                        color: Colors.lightGreen.shade900,size: 31,)),
-                      SizedBox(width: 20),
-                      ElevatedButton(onPressed: (){
-                        Navigator.pop(context);
-                      }, child: Icon(Icons.close,color: Colors.orange.shade900,
-                        size: 31,))
-                    ],
-                  )
-                ],
-              ),
-            ),
-          );
+          return getBottomSheet();
         });
         },
         child: Icon(Icons.add,size: 51,),
@@ -238,6 +126,96 @@ class _MyHomePageState extends State<MyHomePage> {
         foregroundColor: Colors.amber.shade100,
       ),
 
+    );
+  }
+  Widget getBottomSheet({bool isUpdate=false, int? id}){
+    return Container(
+      color: Colors.amber.shade200,
+      width: double.infinity,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Text("${isUpdate ? "Update" : "Add"} Note",style: TextStyle
+              (fontSize: 31,fontWeight:
+            FontWeight(1000)),),
+            SizedBox(height: 20,),
+            TextField(
+              controller: titleController,
+              decoration: InputDecoration(label: Text("title",style:
+              TextStyle(fontSize: 21))
+                  ,hint: Text("Enter Title", style: TextStyle(fontSize:
+                  17,),),
+                  filled: true,
+                  fillColor: Colors.white,
+                  border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(21),),
+                  enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(21),
+                      borderSide: BorderSide(color: Colors.amber.shade800)),
+                  focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(21),
+                    borderSide: BorderSide(width: 2, color: Colors.amber
+                        .shade800),)
+
+              ),
+
+            ),
+            SizedBox(height: 20,),
+            TextField(
+              controller: descController,
+              maxLines: 4,
+              decoration: InputDecoration(label: Text("description",style:
+              TextStyle(fontSize: 21),)
+                ,hint: Text("Enter Description", style: TextStyle
+                  (fontSize:
+                17),),
+                filled: true,
+                fillColor: Colors.white,
+                border:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(21),),
+                enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(21),
+                    borderSide: BorderSide(color: Colors.amber.shade800)),
+                focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(21),
+                  borderSide: BorderSide(width: 2, color: Colors.amber
+                      .shade800),),
+              ),
+
+
+            ),
+            SizedBox(height: 20,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                ElevatedButton(onPressed: () async {
+                  bool? isChanged ;
+                  if(isUpdate){
+                    isChanged = await dbHelper!.updateNote(id: id!,
+                        title: titleController.text, desc: descController.text);
+                  }
+                  else{
+                    isChanged = await dbHelper!.addNote(title:
+                    titleController
+                        .text, desc: descController.text);
+                  }
+
+                  if(isChanged){
+                    titleController.clear();
+                    descController.clear();
+                    Navigator.pop(context);
+                    getAllNotes();
+                  }
+
+                }, child: Icon(Icons.save,
+                  color: Colors.lightGreen.shade900,size: 31,)),
+                SizedBox(width: 20),
+                ElevatedButton(onPressed: (){
+                  Navigator.pop(context);
+                }, child: Icon(Icons.close,color: Colors.orange.shade900,
+                  size: 31,))
+              ],
+            )
+          ],
+        ),
+      ),
     );
   }
 }
